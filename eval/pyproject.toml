@@ -1,0 +1,27 @@
+[project]
+name = "eval"
+version = "0.1.0"
+description = "Runs datasets against the running system as Phoenix experiments: quality, tokens, cost"
+requires-python = ">=3.11"
+dependencies = [
+    "arize-phoenix-client",
+    "orchestrator",
+    "contracts",
+]
+
+[tool.uv.sources]
+orchestrator = { path = "../orchestrator", editable = true }
+contracts = { path = "../proto", editable = true }
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/evals"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

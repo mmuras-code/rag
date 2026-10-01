@@ -1,0 +1,23 @@
+name: phoenix
+
+services:
+  phoenix:
+    image: arizephoenix/phoenix:${PHOENIX_IMAGE_TAG:-latest}
+    container_name: phoenix
+    ports:
+      # UI, and OTLP over HTTP at /v1/traces.
+      - "${PHOENIX_PORT:-6006}:6006"
+      # OTLP over gRPC.
+      - "${PHOENIX_GRPC_PORT:-4317}:4317"
+    environment:
+      # SQLite database lives here.
+      PHOENIX_WORKING_DIR: /mnt/data
+    volumes:
+      # Named volume: traces survive container restarts and removal.
+      - phoenix-data:/mnt/data
+    restart: unless-stopped
+
+volumes:
+  phoenix-data:
+    # Fixed name, kept from when this file lived in observability/, so existing traces stay.
+    name: observability_phoenix-data

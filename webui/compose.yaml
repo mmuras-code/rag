@@ -1,0 +1,27 @@
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:${WEBUI_IMAGE_TAG:-v0.11.4}
+    container_name: open-webui
+    ports:
+      - "${WEBUI_PORT:-3000}:8080"
+    environment:
+      # The orchestrator runs on the host, so the container reaches it via host.docker.internal.
+      OPENAI_API_BASE_URL: ${ORCHESTRATOR_BASE_URL:-http://host.docker.internal:8000/v1}
+      OPENAI_API_KEY: ${ORCHESTRATOR_API_KEY:-dummy}
+      # Read env on every start instead of preferring values saved in the data directory, so the
+      # settings below win over anything changed in the admin UI.
+      ENABLE_PERSISTENT_CONFIG: "false"
+      # No Ollama: models come only from the orchestrator.
+      ENABLE_OLLAMA_API: "false"
+      DEFAULT_MODELS: personal-rag-v0.1
+      # Auxiliary generation calls: each would run the whole (paid) agent loop.
+      ENABLE_TITLE_GENERATION: "false"
+      ENABLE_TAGS_GENERATION: "false"
+      ENABLE_FOLLOW_UP_GENERATION: "false"
+      ENABLE_AUTOCOMPLETE_GENERATION: "false"
+      ENABLE_RETRIEVAL_QUERY_GENERATION: "false"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./data:/app/backend/data
+    restart: unless-stopped

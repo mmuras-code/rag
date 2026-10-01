@@ -1,0 +1,12 @@
+{"question": "In reciprocal rank fusion, what value is usually used for the constant k?", "expect": ["60"], "notes": ["ml/theoretical/rag/query_processing_notes.md"]}
+{"question": "How is mean reciprocal rank computed for a retrieval system?", "expect": ["first relevant", "mean"], "notes": ["ml/theoretical/rag/retrieval_evaluation.md"]}
+{"question": "What is MaxSim in ColBERT and why is it called late interaction?", "expect": ["query token", "separately"], "notes": ["ml/theoretical/rag/colbert_notes.md", "ml/theoretical/rag/cross_encoder_notes.md"]}
+{"question": "Why is a cross-encoder more accurate than a bi-encoder but too slow for first-stage retrieval?", "expect": ["together", "rerank"], "notes": ["ml/theoretical/rag/cross_encoder_notes.md"]}
+{"question": "What is HyDE in query processing for RAG?", "expect": ["hypothetical"], "notes": ["ml/theoretical/rag/query_processing_notes.md"]}
+{"question": "Why should I use AdamW instead of Adam with weight_decay in PyTorch?", "expect": ["decouple"], "notes": ["ml/theoretical/training/weight_decay_notes.md"]}
+{"question": "How does classifier-free guidance work in Stable Diffusion?", "expect": ["unconditional"], "notes": ["ml/theoretical/diffusion/classifier_guidance_notes.md"]}
+{"question": "What does the temperature parameter do when sampling from an LLM?", "expect": ["softmax"], "notes": ["ml/theoretical/llm_apps/sampling_params_notes.md"]}
+{"question": "What are Matryoshka embeddings and how do they combine with quantization?", "expect": ["truncat", "int8"], "notes": ["ml/theoretical/efficiency/matryoshka_quantization_notes.md"]}
+{"question": "Where does an A2A agent publish its Agent Card?", "expect": ["well-known"], "notes": ["ml/theoretical/agents/a2a_protocol_notes.md"]}
+{"question": "Hi! How are you today?", "expect": [], "notes": []}
+{"question": "What is the capital of Poland?", "expect": ["warsaw"], "notes": []}

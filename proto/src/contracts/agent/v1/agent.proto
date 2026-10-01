@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package agent.v1;
+
+// The agent loop (decide, retrieve, grade, generate, judge) as a service. Served over gRPC by
+// agent/ (see docs/decisions/0005-grpc-generated-clients.md); the orchestrator calls it through
+// contracts.agent.AgentClient. Stateless: every call carries the whole conversation.
+service Agent {
+  // Answers the conversation. While the loop works the stream sends a `Progress` event every few
+  // seconds, then exactly one `Answer` and ends. Intermediate drafts are never sent.
+  // INVALID_ARGUMENT if `messages` is empty; UNAVAILABLE if a dependency (search, OpenRouter)
+  // failed; anything else is INTERNAL.
+  rpc Run(RunRequest) returns (stream RunEvent);
+}
+
+message RunRequest {
+  // Oldest first, as Open WebUI sends it.
+  repeated Message messages = 1;
+}
+
+message Message {
+  Role role = 1;
+  // Plain text. The orchestrator joins the text parts of multi-part content.
+  string content = 2;
+}
+
+enum Role {
+  ROLE_UNSPECIFIED = 0;
+  ROLE_SYSTEM = 1;
+  ROLE_USER = 2;
+  ROLE_ASSISTANT = 3;
+}
+
+message RunEvent {
+  oneof event {
+    Progress progress = 1;
+    Answer answer = 2;
+  }
+}
+
+// The agent is still working. Sent so the caller can show it is alive.
+message Progress {
+  // 1, 2, 3, ... one per interval.
+  int32 tick = 1;
+}
+
+// The final answer: the best-scored one if the loop hit its limit.
+message Answer {
+  string text = 1;
+}

@@ -1,0 +1,28 @@
+set dotenv-load
+
+scripts := source_directory() / ".." / "scripts"
+
+default:
+    @just --list
+
+install:
+    uv sync
+
+test:
+    uv run pytest
+
+# Delete log files older than LOG_CLEANUP_MAX_AGE_HOURS (default 24), every LOG_CLEANUP_INTERVAL_MINUTES (default 60), in the foreground.
+log-cleaner *args:
+    uv run python -m common.log_cleaner {{args}}
+
+# One cleaning pass, then exit. E.g. `just common log-clean --max-age-hours 6`.
+log-clean *args:
+    uv run python -m common.log_cleaner --once {{args}}
+
+# `log-cleaner` in the background (log in ../logs/log-cleaner.log). Skipped if already running.
+log-cleaner-up:
+    @{{scripts}}/start-pid.sh log-cleaner -- uv run python -m common.log_cleaner
+
+# Stop the background log cleaner.
+log-cleaner-down:
+    @{{scripts}}/stop-pid.sh log-cleaner

@@ -1,0 +1,18 @@
+scripts := source_directory() / ".." / "scripts"
+
+default:
+    @just --list
+
+install:
+    uv sync
+
+# Regenerate the Python code (messages and gRPC stubs) from every .proto. Commit the result.
+generate:
+    uv run {{scripts}}/proto-gen.sh
+
+# Fail if the checked-in generated code is not what `generate` would write.
+check:
+    uv run {{scripts}}/proto-gen.sh --check
+
+test: check
+    uv run pytest

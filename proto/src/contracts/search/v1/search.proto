@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package search.v1;
+
+// Hybrid (vector + BM25, fused with RRF) search over Obsidian notes. Served over gRPC by search/
+// (see docs/decisions/0005-grpc-generated-clients.md); callers use contracts.search.SearchClient.
+service Search {
+  // INVALID_ARGUMENT if `query` is empty, `k` is outside 0 to 50 or `collection` is not indexed.
+  rpc Query(QueryRequest) returns (QueryResponse);
+}
+
+message QueryRequest {
+  string query = 1;
+  // Number of notes to return, 1 to 50. Defaults to 5 when unset (0).
+  int32 k = 2;
+  // Only search this collection: a top-level folder of the vault root, e.g. "ml" or "test"
+  // (common.collection.Collection). Empty (unset) searches every indexed collection.
+  // INVALID_ARGUMENT if search does not index it.
+  string collection = 3;
+}
+
+message QueryResponse {
+  // Best match first.
+  repeated Result results = 1;
+}
+
+message Result {
+  // Path relative to the vault root; its first folder is the collection, e.g. "ml/theoretical/rag/x.md".
+  string path = 1;
+  // Reciprocal rank fusion (k=60) of the vector and BM25 rankings; higher is better. Only
+  // meaningful for ordering, not as an absolute relevance measure.
+  double score = 2;
+  // The embedded text: title plus body, frontmatter removed, wikilinks as plain text.
+  string content = 3;
+  // Cosine similarity between the query and note embeddings, -1 to 1. Use this for relevance
+  // thresholds.
+  double similarity = 4;
+  // BM25 keyword score; 0 when no query term appears in the note.
+  double bm25 = 5;
+}

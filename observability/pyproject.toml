@@ -1,0 +1,41 @@
+[project]
+name = "observability"
+version = "0.1.0"
+description = "Telemetry helper every service imports: traces to Phoenix, metrics to Grafana"
+requires-python = ">=3.11"
+dependencies = [
+    "common",
+    "arize-phoenix-otel>=0.17.2",
+    "openinference-instrumentation-langchain>=0.1.77",
+    "opentelemetry-exporter-otlp-proto-http>=1.45.0",
+    "opentelemetry-instrumentation-fastapi>=0.66b0",
+    "opentelemetry-instrumentation-grpc>=0.66b0",
+    "opentelemetry-instrumentation-httpx>=0.66b0",
+    "opentelemetry-sdk>=1.45.0",
+]
+
+[tool.uv.sources]
+common = { path = "../common", editable = true }
+
+[dependency-groups]
+dashboards = [
+    "grafana-foundation-sdk==1769699379!11.6.0",
+]
+dev = [
+    "fastapi>=0.142.2",
+    "httpx>=0.28.1",
+    "langchain-core>=1.6.6",
+    "opentelemetry-sdk>=1.45.0",
+    "pytest>=8",
+    {include-group = "dashboards"},  # tests/test_dashboard.py builds the dashboard
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/observability"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

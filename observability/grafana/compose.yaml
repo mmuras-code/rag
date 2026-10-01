@@ -1,0 +1,22 @@
+name: grafana
+
+services:
+  # Grafana's all-in-one image for development: OpenTelemetry Collector, Prometheus (metrics),
+  # Tempo (traces), Loki (logs), Pyroscope (profiles) and Grafana, already wired together.
+  lgtm:
+    image: grafana/otel-lgtm:${LGTM_IMAGE_TAG:-latest}
+    container_name: grafana-lgtm
+    ports:
+      # Grafana UI. 3000 inside; 3001 outside because Open WebUI has 3000.
+      - "${GRAFANA_PORT:-3001}:3000"
+      # OTLP over gRPC. 4317 inside; 4319 outside because Phoenix has 4317.
+      - "${LGTM_OTLP_GRPC_PORT:-4319}:4317"
+      # OTLP over HTTP (/v1/metrics, /v1/traces, /v1/logs).
+      - "${LGTM_OTLP_HTTP_PORT:-4318}:4318"
+    volumes:
+      # Named volume: metrics, traces, logs and dashboards survive container restarts and removal.
+      - lgtm-data:/data
+    restart: unless-stopped
+
+volumes:
+  lgtm-data:

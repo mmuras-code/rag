@@ -1,0 +1,28 @@
+set dotenv-load
+
+scripts := source_directory() / ".." / "scripts"
+
+default:
+    @just --list
+
+sync:
+    uv sync
+
+run:
+    uv run python -m orchestrator
+
+# `run` in the background (log in ../logs/orchestrator.log). Skipped if already answering.
+up:
+    @{{scripts}}/start-bg.sh orchestrator http://127.0.0.1:${ORCHESTRATOR_PORT:-8000}/healthz 60 -- just run
+    @echo "orchestrator: http://localhost:${ORCHESTRATOR_PORT:-8000}"
+
+# Stop whatever serves the orchestrator's port (`up`, `run` or `dev`).
+down:
+    @{{scripts}}/stop-port.sh orchestrator ${ORCHESTRATOR_PORT:-8000}
+
+# Same as run, but restarts on every code change.
+dev:
+    uv run uvicorn orchestrator.app:app --host 0.0.0.0 --port ${ORCHESTRATOR_PORT:-8000} --reload
+
+test:
+    uv run pytest

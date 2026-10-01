@@ -1,0 +1,7 @@
+{"question": "In the PyTorch device-mismatch gotcha, which helper builds the causal mask that ends up on the CPU?", "expect": ["make_causal_mask"], "notes": ["ml/theoretical/pytorch/gotcha.md"]}
+{"question": "Which torch.onnx.export argument pre-computes constant expressions in the exported graph?", "expect": ["do_constant_folding"], "notes": ["ml/theoretical/efficiency/onnx_notes.md"]}
+{"question": "Which Tavily search parameter trades more credits for better results?", "expect": ["search_depth"], "notes": ["ml/theoretical/agents/tavily_notes.md"]}
+{"question": "What Kubernetes resource do you declare in YAML to serve a model with KServe?", "expect": ["InferenceService"], "notes": ["ml/practical/mlops/kserve_notes.md"]}
+{"question": "What example alias does the MLflow Model Registry use so deployment points at a model version?", "expect": ["champion"], "notes": ["ml/practical/mlops/mlflow_notes.md"]}
+{"question": "In a Stable Diffusion pipeline, which VAE config value are latents divided by before decoding?", "expect": ["scaling_factor"], "notes": ["ml/theoretical/diffusion/sd_pipeline_notes.md"]}
+{"question": "How does a DenseNet layer combine its input with the new features, written as a formula?", "expect": ["concat(x, F(x))"], "notes": ["ml/theoretical/vision/densenet_notes.md"]}

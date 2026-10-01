@@ -1,0 +1,52 @@
+set dotenv-load
+
+scripts := source_directory() / ".." / "scripts"
+
+default:
+    @just --list
+
+# Start pgvector in Docker and wait until it accepts connections. A no-op if already running.
+db-up:
+    docker compose up -d --wait pgvector
+
+# Stop pgvector. The named volume, and so the vectors, are kept.
+db-down:
+    @{{scripts}}/compose-down.sh pgvector
+
+db-logs:
+    docker compose logs -f pgvector
+
+# psql shell inside the container.
+psql:
+    docker compose exec pgvector psql -U search -d search
+
+# Install Python dependencies.
+install:
+    uv sync
+
+# Embed new or changed notes, delete rows for removed notes. Needs db-up and OR_KEY.
+sync:
+    uv run python -m search sync
+
+# Sync, then serve the search.v1.Search gRPC service on SEARCH_PORT (default 8001).
+run:
+    uv run python -m search serve
+
+# pgvector, then `run` in the background (log in ../logs/search.log). Skipped if already answering.
+# The vault is synced before serving, so the first start can take minutes.
+up: db-up
+    @{{scripts}}/start-bg.sh search tcp://127.0.0.1:${SEARCH_PORT:-8001} 600 -- just run
+    @echo "search: gRPC on 127.0.0.1:${SEARCH_PORT:-8001}"
+
+# Stop the server and pgvector. The vectors are kept.
+down:
+    @{{scripts}}/stop-port.sh search ${SEARCH_PORT:-8001}
+    just db-down
+
+# One query against the running server, through the generated gRPC client (SEARCH_ADDRESS).
+# `collection` (e.g. ml, test) limits it to one collection; empty searches all.
+query q k="5" collection="":
+    uv run python -m search query "{{q}}" {{k}} {{collection}}
+
+test:
+    uv run pytest

@@ -1,0 +1,11 @@
+set dotenv-load
+
+default:
+    @just --list
+
+install:
+    uv sync
+
+# Ask the orchestrator every question in questions.json, 4 at a time, and check the answers.
+test:
+    uv run pytest -n 4

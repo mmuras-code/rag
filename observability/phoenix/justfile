@@ -1,0 +1,28 @@
+scripts := source_directory() / ".." / ".." / "scripts"
+
+default:
+    @just --list
+
+# Start Phoenix in Docker and wait until the UI answers on PHOENIX_PORT (default 6006). Skipped if already answering.
+up:
+    @{{scripts}}/compose-up.sh Phoenix http://127.0.0.1:${PHOENIX_PORT:-6006} 120 phoenix
+    @echo "Phoenix UI: http://localhost:${PHOENIX_PORT:-6006}"
+
+# Stop Phoenix. The named volume, and so the traces, are kept.
+down:
+    @{{scripts}}/compose-down.sh Phoenix
+
+logs:
+    docker compose logs -f phoenix
+
+pull:
+    docker compose pull
+
+# Open the Phoenix UI in the browser.
+ui:
+    open http://localhost:${PHOENIX_PORT:-6006}
+
+# Stop Phoenix and delete the volume. Every stored trace is lost.
+[confirm("Delete all Phoenix traces?")]
+reset:
+    docker compose down -v

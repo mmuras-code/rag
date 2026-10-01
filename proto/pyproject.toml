@@ -1,0 +1,27 @@
+[project]
+name = "contracts"
+version = "0.1.0"
+description = "Service contracts (.proto), the gRPC code generated from them, and thin client wrappers"
+requires-python = ">=3.11"
+dependencies = [
+    "grpcio>=1.84.0",
+    "opentelemetry-api>=1.45.0",  # the wrappers pass the current trace on in the call's metadata
+    "protobuf>=7.36.2",
+]
+
+[dependency-groups]
+dev = [
+    "grpcio-tools==1.84.0",  # pinned: the generated code must match it; `just generate` uses it
+    "opentelemetry-sdk>=1.45.0",
+    "pytest>=8",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/contracts"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

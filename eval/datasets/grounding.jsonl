@@ -1,0 +1,3 @@
+{"question": "Test question: what is my favorite number?", "expect": ["19626"], "notes": ["test/favorite_number.md"]}
+{"question": "This is a test question. Which number do I like the most?", "expect": ["19626"], "notes": ["test/favorite_number.md"]}
+{"question": "Test question: do my notes say what number I'm especially fond of?", "expect": ["19626"], "notes": ["test/favorite_number.md"]}

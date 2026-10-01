@@ -1,0 +1,29 @@
+{"query": "what is MCP", "expected": ["ml/theoretical/agents/mcp_and_tool_use_faq.md"]}
+{"query": "which transport should an MCP server use, stdio or HTTP", "expected": ["ml/theoretical/agents/mcp_and_tool_use_faq.md"]}
+{"query": "how do I merge a keyword ranking with a vector ranking", "expected": ["ml/theoretical/rag/reciprocal_rank_fusion.md", "ml/theoretical/rag/rag_retrieval.md"]}
+{"query": "how big should chunks be and should they overlap", "expected": ["ml/theoretical/rag/chunking_notes.md"]}
+{"query": "why retrieve in two stages and rescore the top results", "expected": ["ml/theoretical/rag/reranking_notes.md", "ml/theoretical/rag/cross_encoder_notes.md"]}
+{"query": "alternatives to MongoDB for storing embeddings", "expected": ["ml/theoretical/rag/vector_db_notes.md"]}
+{"query": "faithfulness and context precision metrics for a RAG pipeline", "expected": ["ml/theoretical/rag/ragas_notes.md"]}
+{"query": "only show documents a user is allowed to see in retrieval", "expected": ["ml/theoretical/rag/rag_access_control_notes.md"]}
+{"query": "can embeddings be encrypted and still searched", "expected": ["ml/theoretical/rag/encrypting_chunks_notes.md"]}
+{"query": "reuse an answer when a similar question was asked before", "expected": ["ml/theoretical/llm_apps/caching_notes.md"]}
+{"query": "prompt injection and data leakage risks", "expected": ["ml/theoretical/llm_apps/llm_security_notes.md"]}
+{"query": "get JSON tool calls out of a model reliably", "expected": ["ml/theoretical/llm_apps/structured_output_prompting_notes.md"]}
+{"query": "how does RoPE differ from sinusoidal position embeddings", "expected": ["ml/theoretical/nlp/positional_encoding_notes.md"]}
+{"query": "why divide by the square root of d_k in attention", "expected": ["ml/theoretical/nlp/attention_notes.md"]}
+{"query": "what does the ## prefix mean in WordPiece tokens", "expected": ["ml/theoretical/nlp/tokenizer_notes.md"]}
+{"query": "scale and zero point when converting weights to int8", "expected": ["ml/theoretical/efficiency/quantization_notes.md"]}
+{"query": "structured versus unstructured removal of weights", "expected": ["ml/theoretical/efficiency/pruning_notes.md"]}
+{"query": "train with a large batch when the GPU runs out of memory", "expected": ["ml/theoretical/pytorch/gradient_accumulation_notes.md"]}
+{"query": "register a forward hook to read activations", "expected": ["ml/theoretical/pytorch/hooks_notes.md"]}
+{"query": "show which pixels a CNN used for its prediction", "expected": ["ml/theoretical/vision/saliency_gradcam_notes.md"]}
+{"query": "how much of the input image one neuron sees", "expected": ["ml/theoretical/vision/receptive_field_notes.md"]}
+{"query": "vLLM or Triton for serving a model", "expected": ["ml/practical/mlops/serving_engines_notes.md"]}
+{"query": "hyperparameter search with trials and pruners", "expected": ["ml/theoretical/training/optuna_notes.md"]}
+{"query": "spans and traces for an LLM app", "expected": ["ml/theoretical/llmops/tracing_notes.md"]}
+{"query": "supervisor agent delegating to worker agents", "expected": ["ml/theoretical/agents/multi_agent_patterns_notes.md"]}
+{"query": "best pizza in Naples", "expected": []}
+{"query": "how do I renew my passport", "expected": []}
+{"query": "how does LoRA fine-tuning work", "expected": []}
+{"query": "tips for growing tomatoes on a balcony", "expected": []}

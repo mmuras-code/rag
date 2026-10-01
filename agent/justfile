@@ -1,0 +1,29 @@
+set dotenv-load
+
+scripts := source_directory() / ".." / "scripts"
+
+default:
+    @just --list
+
+install:
+    uv sync
+
+# Serve the agent.v1.Agent gRPC service on AGENT_PORT (default 8002). Needs OR_KEY.
+run:
+    uv run python -m agent
+
+# `run` in the background (log in ../logs/agent.log). Skipped if already listening.
+up:
+    @{{scripts}}/start-bg.sh agent tcp://127.0.0.1:${AGENT_PORT:-8002} 60 -- just run
+    @echo "agent: gRPC on 127.0.0.1:${AGENT_PORT:-8002}"
+
+# Stop whatever serves the agent's port.
+down:
+    @{{scripts}}/stop-port.sh agent ${AGENT_PORT:-8002}
+
+# Write the graph as Mermaid to graph.md.
+graph:
+    uv run python -m agent.graph
+
+test:
+    uv run pytest

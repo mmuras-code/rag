@@ -1,0 +1,25 @@
+set dotenv-load
+
+scripts := source_directory() / ".." / "scripts"
+
+default:
+    @just --list
+
+# Start Open WebUI and wait until it answers on WEBUI_PORT (default 3000); the first boot takes ~30 s. Skipped if already answering.
+up:
+    @{{scripts}}/compose-up.sh "Open WebUI" http://127.0.0.1:${WEBUI_PORT:-3000} 120
+    @echo "Open WebUI: http://localhost:${WEBUI_PORT:-3000}"
+
+# Stop Open WebUI. The named volume, and so the chats, are kept.
+down:
+    @{{scripts}}/compose-down.sh "Open WebUI"
+
+logs:
+    docker compose logs -f open-webui
+
+pull:
+    docker compose pull
+
+# Print the effective config the container sees.
+env:
+    docker compose exec open-webui env | grep -E 'OPENAI|PERSISTENT|OLLAMA|DEFAULT_MODELS|_GENERATION'

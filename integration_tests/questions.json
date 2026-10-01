@@ -1,0 +1,20 @@
+[
+  {"question": "What is the capital of France?", "expect": ["paris"]},
+  {"question": "What is 12 multiplied by 12?", "expect": ["144"]},
+  {"question": "Who wrote Hamlet?", "expect": ["shakespeare"]},
+  {"question": "What is the chemical symbol for gold?", "expect": ["au"]},
+  {"question": "How many days does a leap year have?", "expect": ["366"]},
+  {"question": "At what temperature in Celsius does water boil at sea level?", "expect": ["100"]},
+  {"question": "What does RAG stand for in machine learning?", "expect": ["retrieval", "generation"]},
+  {"question": "In reciprocal rank fusion, what is the usual value of the constant k?", "expect": ["60"]},
+  {"question": "A train leaves at 14:45 and the journey takes 2 hours 30 minutes. At what time does it arrive? Answer in 24-hour HH:MM format.", "expect": ["17:15"], "difficulty": 30},
+  {"question": "What is 15% of 240? Answer with the number only.", "expect": ["36"], "difficulty": 30},
+  {"question": "If today is Wednesday, what day of the week will it be in 10 days?", "expect": ["saturday"], "difficulty": 30},
+  {"question": "How many seconds are in 2.5 hours? Write the number with digits only, no separators.", "expect": ["9000"], "difficulty": 30},
+  {"question": "What is the smallest prime number greater than 50?", "expect": ["53"], "difficulty": 30},
+  {"question": "Convert the binary number 101101 to decimal.", "expect": ["45"], "difficulty": 30},
+  {"question": "In Python, what does len('hello world') return?", "expect": ["11"], "difficulty": 30},
+  {"question": "Which chemical element has atomic number 26?", "expect": ["iron"], "difficulty": 30},
+  {"question": "What is the time complexity of binary search on a sorted array, in big-O notation?", "expect": ["log"], "difficulty": 30},
+  {"question": "Sarah is twice as old as Tom. In 5 years their ages will add up to 40. How old is Tom now?", "expect": ["10"], "difficulty": 30}
+]

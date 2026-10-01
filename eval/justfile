@@ -1,0 +1,26 @@
+set dotenv-load
+
+default:
+    @just --list
+
+install:
+    uv sync
+
+test:
+    uv run pytest
+
+# Run a dataset against the running stack as a Phoenix experiment, e.g. `just run --name haiku-baseline`.
+run *args:
+    uv run python -m evals.run {{args}}
+
+# Prove answers come from the Obsidian notes: ask for the vault canary (19626); every case must pass every check.
+grounding *args:
+    uv run python -m evals.run --dataset datasets/grounding.jsonl --name grounding --strict {{args}}
+
+# Score search alone against datasets/retrieval.jsonl: recall@k, MRR, the similarity floor. No chat model.
+retrieval *args:
+    uv run python -m evals.retrieval {{args}}
+
+# Open the Phoenix datasets page, where experiments are compared.
+ui:
+    open ${PHOENIX_COLLECTOR_ENDPOINT:-http://localhost:6006}/datasets

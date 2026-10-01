@@ -1,0 +1,21 @@
+services:
+  pgvector:
+    image: pgvector/pgvector:${PGVECTOR_IMAGE_TAG:-pg17}
+    container_name: search-pgvector
+    ports:
+      - "${SEARCH_DB_PORT:-5433}:5432"
+    environment:
+      POSTGRES_USER: search
+      POSTGRES_PASSWORD: search
+      POSTGRES_DB: search
+    volumes:
+      # Named volume: vectors survive container restarts and removal.
+      - search-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U search -d search"]
+      interval: 2s
+      retries: 30
+    restart: unless-stopped
+
+volumes:
+  search-pgdata:

@@ -1,0 +1,20 @@
+set dotenv-load
+
+default:
+    @just --list
+
+# Install Python dependencies.
+install:
+    uv sync
+
+# Run the tests.
+test:
+    uv run pytest
+
+# One chat through OpenRouterClient (needs OR_KEY in .env).
+openrouter prompt="Say hello in one sentence.":
+    uv run python -c 'import sys; from llm import OpenRouterClient; print(OpenRouterClient().chat([{"role": "user", "content": sys.argv[1]}]))' "{{prompt}}"
+
+# One embedding through embed: model, token count, dimensions (needs OR_KEY in .env).
+embed text="Hello":
+    uv run python -c 'import sys; from llm import embed; e = embed(sys.argv[1]); print(e.token_count, "tokens,", len(e.vector), "dims, truncated:", e.truncated)' "{{text}}"

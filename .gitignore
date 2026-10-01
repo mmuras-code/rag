@@ -1,0 +1,21 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+*.egg-info/
+
+# Secrets and local config
+.env
+
+# IDE and OS
+.idea/
+.DS_Store
+
+# Logs of servers started by `just up` (in logs/; .logs/ is the old per-service location)
+logs/
+.logs/
+*.log

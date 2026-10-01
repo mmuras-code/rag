@@ -1,0 +1,35 @@
+scripts := source_directory() / ".." / ".." / "scripts"
+
+default:
+    @just --list
+
+# Start Grafana (otel-lgtm) in Docker, wait until it is healthy on GRAFANA_PORT (default 3001), upload the dashboard.
+up: start dashboard
+
+# Start the container and wait until Grafana is healthy. Skipped if Grafana already answers.
+start:
+    @{{scripts}}/compose-up.sh Grafana http://127.0.0.1:${GRAFANA_PORT:-3001}/api/health 120 lgtm
+    @echo "Grafana UI: http://localhost:${GRAFANA_PORT:-3001} (admin / admin)"
+
+# Build the `ML operations` dashboard from dashboard.py, write dashboards/ml.json and upload it. `--dry-run` skips the upload.
+dashboard *args:
+    GRAFANA_URL=${GRAFANA_URL:-http://localhost:${GRAFANA_PORT:-3001}} uv run --project .. --group dashboards python dashboard.py {{args}}
+
+# Stop Grafana. The named volume, and so the stored data, is kept.
+down:
+    @{{scripts}}/compose-down.sh Grafana
+
+logs:
+    docker compose logs -f lgtm
+
+pull:
+    docker compose pull
+
+# Open the Grafana UI in the browser.
+ui:
+    open http://localhost:${GRAFANA_PORT:-3001}
+
+# Stop Grafana and delete the volume. Every stored metric, trace, log and dashboard is lost.
+[confirm("Delete all Grafana data?")]
+reset:
+    docker compose down -v

@@ -1,0 +1,24 @@
+# Observability: Phoenix (LLM traces, evals) and Grafana (metrics dashboards), each in its own
+# subdirectory with its own compose file. Run their recipes as `just observability phoenix up`.
+mod phoenix
+mod grafana
+
+default:
+    @just --list --list-submodules
+
+# Start Phoenix (traces) and Grafana (metrics, with the dashboard uploaded). The root `just up` runs this.
+up:
+    just phoenix up
+    just grafana up
+
+# Stop Phoenix and Grafana. Volumes are kept.
+down:
+    just grafana down
+    just phoenix down
+
+# Install Python dependencies of the tracing helper.
+install:
+    uv sync
+
+test:
+    uv run pytest
