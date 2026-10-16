@@ -1,4 +1,4 @@
-# ml
+# RAG agent over my notes
 
 A personal backend for Open WebUI. It answers a query directly, or retrieves from my Obsidian
 notes when it needs to, and loops until verifiers judge the answer good enough. Every request is
